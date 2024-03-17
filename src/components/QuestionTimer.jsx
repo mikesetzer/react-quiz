@@ -9,15 +9,23 @@ export default function QuestionTimer({ timeout, onTimeout }) {
   // Set the timeout when timeout or onTimeout changes
   useEffect(() => {
     console.log('SETTING TIMEOUT');
-    setTimeout(onTimeout, timeout);
+    const timer = setTimeout(onTimeout, timeout);
+
+    return () => {
+      clearTimeout(timer);
+    }
   }, [timeout, onTimeout]);
   
   // Set the current progress, reduce by 100ms every 100ms
   useEffect(() => {
     console.log('SETTING INTERVAL');
-    setInterval(() => {
+    const interval = setInterval(() => {
       setRemainingTime(prevRemainingTime => prevRemainingTime - 100);
     }, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   
